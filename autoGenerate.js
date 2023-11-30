@@ -120,9 +120,15 @@ class Maze {
         
         //create start node
         let currentNode = this.setStart(x, y);
+        console.log(currentNode);
+
         for(let i = 0; i < 5; i++){
-            console.log(currentNode);
+            if(currentNode.numPaths )
+            for(let j = 0; j < 4; j++){
+
+            }
             
+            console.log(currentNode);
         }
         
     }
