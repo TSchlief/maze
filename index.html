@@ -7,12 +7,27 @@
   <link href="./styles/app.css" rel="stylesheet"/>
 
 </head>
-<body>
-
-  <div id="myDiv"></div>  
-
-
-  <script src="./js/mouseoverCoordinates.js"></script>
+<body style="margin: 0;">
+  <div id="app">
+    <div id="header">
+      <div class="flex-container" id="header-btns-container">
+        <button class="header-btns" id="create-btn">Create</button>
+        <button class="header-btns" id="edit-btn">Edit</button>
+        <button class="header-btns" id="submit-btn">Submit</button>
+        <button class="header-btns" id="play-btn">Play</button>
+      </div>
+    </div>
+    
+    <div id="play-area">
+      <div id="maze-wrapper">
+        <div id="maze">
+          
+        </div>
+      </div>
+    </div>
+  </div>  
+  
+  <script src="./js/manualGenerate.js"></script>
   <script src="./js/app.js"></script>
 </body>
 </html>

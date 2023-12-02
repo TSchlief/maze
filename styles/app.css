@@ -1,5 +1,83 @@
-#myDiv{
-    background-color: blue;
-    height: 300px;
-    width: 300px;
+.flex-container{
+    display: flex;
+    position: absolute;
+}
+.column{
+    flex-direction: column;;
+}
+
+.header-btns{
+    display: block;
+    font-size: 60px;
+    border-radius: 10px;
+    margin: 5px
+}
+
+#app {
+    background-color: darkblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#header{
+    position: absolute;
+    display: block;
+    top:0;
+    left:0;
+    background-color: rgb(69, 50, 175);
+    height: 100px;
+    width: 100%;
+}
+#header-desktop {
+    height: 100px;
+    width: 100%;
+}
+#header-mobile {
+    width: 100px;
+    height: 100%;
+}
+#header-btns-container {
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+#play-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2vh 2vw;
+    background-color: rgb(50, 175, 112);
+    height: 85vh;
+    width: 96vw;
+}
+
+#maze-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#maze {
+    display: grid;
+    background-color: rgb(175, 50, 175);
+}
+
+.maze-cell {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: 1px dashed brown;
+}
+.maze-cell[iswall="true"] {
+    background-color: rgb(49, 214, 16);
+}
+
+.maze-cell[iswall="false"] {
+    background-color: grey;
 }
