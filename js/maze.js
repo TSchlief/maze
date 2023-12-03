@@ -1,8 +1,9 @@
 
 class Maze {
-    constructor(height=15, width=15) {
+    constructor(height=15, width=15, fogDistance = 20) {
         this.height = height;
         this.width = width;
+        this.fogDistance = fogDistance;
         this.cellCount = height * width;
         this.canEdit = false;
         this.start = null;
@@ -12,14 +13,15 @@ class Maze {
         
         this.turns = 0;
         this.playedTiles = [];
+        this.lastPlayedTiles = [];
         
         this.buildMazeStyle();
         this.buildCells();
     }
 
     buildMazeStyle () {
-        const mazeStyle = `grid-template-columns: repeat(${this.height}, 2em);
-        grid-template-rows: repeat(${this.width}, 2em)`;
+        const mazeStyle = `grid-template-columns: repeat(${this.height}, 3em);
+        grid-template-rows: repeat(${this.width}, 3em)`;
 
         document.getElementById("maze").style.cssText = mazeStyle;
     }
@@ -38,7 +40,7 @@ class Maze {
                 isend="false"
                 discovered="true"
                 played="false"
-                >${i}</div>
+                ></div>
             ` 
         }
         
@@ -75,6 +77,8 @@ class Maze {
     
     //resets tiles
     addFog () {
+        this.playedTiles = [];
+        this.lastPlayedTiles = [];
         for(const tile in this.tiles) {
             let element = this.tiles[tile];
             if (element.getAttribute("isstart") === "true"){
@@ -88,10 +92,19 @@ class Maze {
         }
     }
 
-    handleTurnEvent(playedCells) {
+    handleTurnEvent() {
         this.turns++;
-   
-        console.log(playedCells)
+        this.playedTiles.push(this.lastPlayedTiles)
+        this.lastPlayedTiles = [];
+        
+        if (this.playedTiles.length > this.fogDistance){
+            let resetTiles = this.playedTiles.shift();
+            for(let i = 0; i < resetTiles.length; i++) {
+                resetTiles[i].setAttribute("discovered", "false");
+                resetTiles[i].setAttribute("played", "false");
+            }
+        }
+        
     }
 
     removeFog () {
@@ -155,16 +168,8 @@ class Maze {
         if(element.getAttribute("discovered") === "false" || element.getAttribute("iswall") === "true") {
             return;
         }
-        //mark selected cell as played
-        if(element.getAttribute("played") === "false"){
-            element.setAttribute("played", "true")
-            console.log("turn");
-        }
-        //return if tile was already played
-        else{
-            return;
-        }
-
+ 
+        this.handleTurnEvent();
         const cellNumbers = [];
         const playedCells = [];
         cellNumbers.push(parseInt(element.getAttribute("cellnumber")));
@@ -172,18 +177,18 @@ class Maze {
         cellNumbers.push(cellNumbers[0] - 1);
         cellNumbers.push(cellNumbers[0] + this.width);
         cellNumbers.push(cellNumbers[0] - this.width);
-
+        
         for(let i = 0; i < 5; i++) {
             let target = document.getElementById(`maze-cell-${cellNumbers[i]}`);
             if(cellNumbers[i] < this.cellCount && cellNumbers[i] > -1 && target.getAttribute("iswall") === "false"){
                 if(!this.isEdge(cellNumbers[i]) || target.getAttribute("isend") === "true"){
                     target.setAttribute("discovered", true) ;
-                    playedCells.push(target);
+                    this.lastPlayedTiles.push(target);
                 }
             }
         }
 
-        this.handleTurnEvent(playedCells);
+        
     }
     
     handleClick = (event) => {
