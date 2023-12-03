@@ -94,6 +94,7 @@ class Maze {
 
     handleTurnEvent() {
         this.turns++;
+        console.log(this.turns)
         this.playedTiles.push(this.lastPlayedTiles)
         this.lastPlayedTiles = [];
         
@@ -178,6 +179,7 @@ class Maze {
         cellNumbers.push(cellNumbers[0] + this.width);
         cellNumbers.push(cellNumbers[0] - this.width);
         
+        
         for(let i = 0; i < 5; i++) {
             let target = document.getElementById(`maze-cell-${cellNumbers[i]}`);
             if(cellNumbers[i] < this.cellCount && cellNumbers[i] > -1 && target.getAttribute("iswall") === "false"){
@@ -187,6 +189,7 @@ class Maze {
                 }
             }
         }
+        element.setAttribute("played", "true");
 
         
     }

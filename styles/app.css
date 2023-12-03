@@ -88,10 +88,13 @@
     background-color: rgb(42, 207, 51);
 }
 .maze-cell[isend="true"] {
-    background-color: #2241DD;
+    background-color: #dd9222;
 }
-
 
 .maze-cell[discovered="false"] {
     background-color: rgb(4, 24, 4)
+
+}
+.maze-cell[played="true"] {
+    background-color: #334fdb
 }
