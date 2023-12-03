@@ -10,11 +10,13 @@
     flex-basis: 100%;
     font-size: 40px;
     border-radius: 10px;
-    margin: 5px
+    margin: 5px;
+    background-color: #57168F;
+    color: rgba(255, 255, 255, 0.747);
 }
 
 #app {
-    background-color: darkblue;
+    background-color: #3E168F;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,7 +29,6 @@
     display: block;
     top:0;
     left:0;
-    background-color: rgb(69, 50, 175);
     width: 100%;
 }
 #header-desktop {
@@ -49,8 +50,7 @@
     flex-direction: column;
     align-items: center;
     padding: 2vh 2vw;
-    background-color: rgb(50, 175, 112);
-    height: 85vh;
+    background: radial-gradient(circle, #4E8F16, #168F31);
     width: 96vw;
 }
 
@@ -70,7 +70,7 @@
     display: block;
     height: 100%;
     width: 100%;
-    border: 1px solid rgb(29, 14, 14);
+    border: 2px solid rgb(51, 104, 65);
 }
 .maze-cell[iswall="true"] {
     background-color: grey;
@@ -78,20 +78,20 @@
 }
 
 .maze-cell[iswall="false"] {
-    background-color: rgb(51, 53, 207);
+    background-color: #4E8F16;
 }
 
 .maze-cell[isedge="true"] {
-    background-color: rgb(224, 176, 176);
+    background-color: #168B8F;
 }
 .maze-cell[isstart="true"] {
     background-color: rgb(42, 207, 51);
 }
 .maze-cell[isend="true"] {
-    background-color: rgb(201, 36, 14);
+    background-color: #2241DD;
 }
 
 
 .maze-cell[discovered="false"] {
-    background-color: rgba(0, 0, 0, 1);
+    background-color: rgb(4, 24, 4)
 }
