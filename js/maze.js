@@ -10,6 +10,7 @@ class Maze {
         this.end = null;
         this.isStart = true;
         this.tiles = [];
+        this.solved = false;
         
         this.turns = 0;
         this.playedTiles = [];
@@ -20,8 +21,8 @@ class Maze {
     }
 
     buildMazeStyle () {
-        const mazeStyle = `grid-template-columns: repeat(${this.height}, 3em);
-        grid-template-rows: repeat(${this.width}, 3em)`;
+        const mazeStyle = `grid-template-columns: repeat(${this.height}, 2.5em);
+        grid-template-rows: repeat(${this.width}, 2.5em)`;
 
         document.getElementById("maze").style.cssText = mazeStyle;
     }
@@ -77,6 +78,7 @@ class Maze {
     
     //resets tiles
     addFog () {
+        console.log(this.tiles)
         this.playedTiles = [];
         this.lastPlayedTiles = [];
         for(const tile in this.tiles) {
@@ -90,6 +92,71 @@ class Maze {
                 element.setAttribute("played", "false");
             }
         }
+    }
+
+    checkValidMaze () {
+        let set = new Set();
+        let queue = [];
+
+        const startingIndex = parseInt(this.start.getAttribute("cellnumber"));
+        set.add(startingIndex);
+        queue.push(startingIndex);
+        console.log("startingIndex", startingIndex)
+
+        let count = 0;
+        while (queue.length > 0 && count < 50) {
+            count++;
+            let currentIndex = queue.shift();
+            console.log("currentIndex", currentIndex)
+            let directions = this.travelDirections(currentIndex);
+            console.log("directions", directions)
+            for(let i = 0; i < directions.length; i++){
+                let element = this.tiles[directions[i]];
+            
+                //if element is end then maze is valid return true
+                if(element.getAttribute("isend") === "true") {
+                    console.log("steps", count);
+                    return true;
+                }
+                //if element is not a wall add its index to queue
+                if(element.getAttribute("iswall") === "false"){
+                    if(!set.has(directions[i])) {
+                        set.add(directions[i]);
+                        queue.push(directions[i]);
+                        
+                    }
+                }
+            }
+            
+        }
+        console.log("steps", count);
+        return false;
+    }
+
+    //when navigating a 2d array using only a list of increasing numbers
+    //determines directions of possible travel and returns indexes
+    travelDirections(index) {
+        let directions = [];
+        //we can add up and down direction if they are not over or under the 2d array
+        if (index - this.width >= 0) {
+            directions.push(index - this.width);
+        }
+        if (index + this.width < this.cellCount) {
+            directions.push(index + this.width);
+        }
+        //if index is on the left side of the 2d array travel only right
+        if(index % this.width === 0) {
+            directions.push(index + 1);
+        }
+        //if index is on the right size of the 2d array travel only left
+        else if(index % this.width === this.width-1) {
+            directions.push(index - 1);
+        }
+        else {
+            directions.push(index + 1);
+            directions.push(index - 1);
+        }
+        return directions;
     }
 
     handleTurnEvent() {
@@ -174,6 +241,7 @@ class Maze {
         const cellNumbers = [];
         const playedCells = [];
         cellNumbers.push(parseInt(element.getAttribute("cellnumber")));
+        this.travelDirections(cellNumbers[0])
         cellNumbers.push(cellNumbers[0] + 1);
         cellNumbers.push(cellNumbers[0] - 1);
         cellNumbers.push(cellNumbers[0] + this.width);
