@@ -1,13 +1,13 @@
 .flex-container{
     display: flex;
-    position: absolute;
+    flex-direction: row;
 }
 .column{
     flex-direction: column;;
 }
 
 .header-btns{
-    display: block;
+    flex-basis: 100px;
     font-size: 60px;
     border-radius: 10px;
     margin: 5px
@@ -40,8 +40,7 @@
     height: 100%;
 }
 #header-btns-container {
-    justify-content: center;
-    align-items: center;
+    gap: 1rem;
 }
 
 
@@ -72,12 +71,28 @@
     display: block;
     height: 100%;
     width: 100%;
-    border: 1px dashed brown;
+    border: 1px solid rgb(29, 14, 14);
 }
 .maze-cell[iswall="true"] {
-    background-color: rgb(49, 214, 16);
+    background-color: grey;
+    
 }
 
 .maze-cell[iswall="false"] {
-    background-color: grey;
+    background-color: rgb(51, 53, 207);
+}
+
+.maze-cell[isedge="true"] {
+    background-color: rgb(224, 176, 176);
+}
+.maze-cell[isstart="true"] {
+    background-color: rgb(42, 207, 51);
+}
+.maze-cell[isend="true"] {
+    background-color: rgb(201, 36, 14);
+}
+
+
+.maze-cell[discovered="false"] {
+    background-color: rgba(0, 0, 0, 1);
 }

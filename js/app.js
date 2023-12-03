@@ -4,6 +4,7 @@
     const editBtn = document.getElementById("edit-btn");
     const submitBtn = document.getElementById("submit-btn");
     const playBtn = document.getElementById("play-btn");
+    var maze = new Maze();
    
 
     const handleCreateBtn =(event) => {
@@ -11,6 +12,8 @@
     }
     
     const handleEditBtn =(event) => {
+        maze.removeFog();
+        maze.canEdit = true;
         console.log("clicked edit");
     }
     
@@ -19,6 +22,8 @@
     }
     
     const handlePlayBtn =(event) => {
+        maze.canEdit = false;
+        maze.addFog();
         console.log("clicked play");
     }
 
@@ -29,6 +34,8 @@
     document.getElementById("edit-btn").addEventListener("click", handleEditBtn);
     document.getElementById("submit-btn").addEventListener("click", handleSubmitBtn);
     document.getElementById("play-btn").addEventListener("click", handlePlayBtn);
+
+
 
 
 
