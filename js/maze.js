@@ -21,8 +21,8 @@ class Maze {
     }
 
     buildMazeStyle () {
-        const mazeStyle = `grid-template-columns: repeat(${this.height}, 2.5em);
-        grid-template-rows: repeat(${this.width}, 2.5em)`;
+        const mazeStyle = `grid-template-columns: repeat(${this.height}, minmax(10px, 40px));
+        grid-template-rows: repeat(${this.width}, minmax(10px, 40px))`;
 
         document.getElementById("maze").style.cssText = mazeStyle;
     }
@@ -104,7 +104,7 @@ class Maze {
         console.log("startingIndex", startingIndex)
 
         let count = 0;
-        while (queue.length > 0 && count < 50) {
+        while (queue.length > 0) {
             count++;
             let currentIndex = queue.shift();
             console.log("currentIndex", currentIndex)

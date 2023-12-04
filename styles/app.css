@@ -1,13 +1,14 @@
 .flex-container{
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 .column{
     flex-direction: column;;
 }
 
 .header-btns{
-    flex-basis: 100%;
+    flex-basis: 100px;
     font-size: 40px;
     border-radius: 10px;
     margin: 5px;
