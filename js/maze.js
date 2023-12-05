@@ -37,8 +37,7 @@ class Maze {
                 cellNumber='${i}'
                 class="maze-cell"
                 id="maze-cell-${i}"
-                isstart="false"
-                isend="false"
+                endPoints="false"
                 discovered="true"
                 played="false"
                 ></div>
@@ -83,7 +82,7 @@ class Maze {
         this.lastPlayedTiles = [];
         for(const tile in this.tiles) {
             let element = this.tiles[tile];
-            if (element.getAttribute("isstart") === "true"){
+            if (element.getAttribute("endPoints") === "start"){
                 element.setAttribute("discovered", "true");
                 element.setAttribute("played", "false");
             }
@@ -114,7 +113,7 @@ class Maze {
                 let element = this.tiles[directions[i]];
             
                 //if element is end then maze is valid return true
-                if(element.getAttribute("isend") === "true") {
+                if(element.getAttribute("endPoints") === "end") {
                     console.log("steps", count);
                     return true;
                 }
@@ -188,32 +187,31 @@ class Maze {
             if(this.start && this.end){
                 this.isStart = true;
                 this.start.setAttribute("iswall", "false")
-                this.start.setAttribute("isstart", "false")
                 this.end.setAttribute("iswall", "false")
-                this.end.setAttribute("isend", "false")
+                this.end.setAttribute("endPoints", "false")
                 this.start = null;
                 this.end = null;
             }
             else if(this.isStart){
                 if(this.start){
                     this.start.setAttribute("iswall", "false")
-                    this.start.setAttribute("isstart", "false")
+                    this.start.setAttribute("endPoints", "false")
                 }
                 this.start = element;
                 this.isStart = false;
                 element.setAttribute("iswall", "true");
-                element.setAttribute("isstart", "true");
+                element.setAttribute("endPoints", "start");
                 
             }
             else{
                 if(element === this.start){return}
                 if(this.end){
-                    this.end.setAttribute("isend", "false")
+                    this.end.setAttribute("endPoints", "false")
                     this.end.setAttribute("iswall", "false")
                 }
                 this.end = element;
                 this.isStart = true;
-                element.setAttribute("isend", "true");
+                element.setAttribute("endPoints", "end");
                 element.setAttribute("iswall", "true");
             }
         }
@@ -251,7 +249,7 @@ class Maze {
         for(let i = 0; i < 5; i++) {
             let target = document.getElementById(`maze-cell-${cellNumbers[i]}`);
             if(cellNumbers[i] < this.cellCount && cellNumbers[i] > -1 && target.getAttribute("iswall") === "false"){
-                if(!this.isEdge(cellNumbers[i]) || target.getAttribute("isend") === "true"){
+                if(!this.isEdge(cellNumbers[i]) || target.getAttribute("endPoints") === "end"){
                     target.setAttribute("discovered", true) ;
                     this.lastPlayedTiles.push(target);
                 }
