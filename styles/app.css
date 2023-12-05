@@ -55,12 +55,6 @@
     width: 96vw;
 }
 
-#maze-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
 
 #maze {
     display: grid;
@@ -88,10 +82,10 @@
     background-color: #144272;
     
 }
-.maze-cell[isstart="true"] {
+.maze-cell[endpoints="start"] {
     background-color: rgb(42, 207, 51);
 }
-.maze-cell[isend="true"] {
+.maze-cell[endpoints="end"] {
     background-color: #dd9222;
 }
 
