@@ -1,7 +1,6 @@
 const mazeColors = {
     wall: "grey",
     path: "#4E8F16",
-    edge: "#144272",
     start: "rgb(42, 207, 51)",
     end: "#dd9222",
     discovered: "rgb(4, 24, 4)",
@@ -56,10 +55,6 @@ class Maze {
             background-color: ${this.colors.path};
         }
         
-        .maze-cell[isedge="true"] {
-            background-color: ${this.colors.edge};
-        }
-        
         .maze-cell[endpoints="start"] {
             background-color: ${this.colors.start};
         }
@@ -86,7 +81,7 @@ class Maze {
         for(let i = 0; i < this.cellCount; i++){
             
             cellsHtml += `
-                <div isedge=${this.isEdge(i) && !this.isCorner(i)}
+                <div 
                 iswall="true"
                 cellNumber='${i}'
                 class="maze-cell"
@@ -283,58 +278,54 @@ class Maze {
         }
         return false;
     }
+    createRandomMaze () {
+        
+    }
 
     editMaze (element) {
         const cellNumber = parseInt(element.getAttribute("cellnumber"));
 
-        if(element.getAttribute("isedge") === "true" && !this.isCorner(cellNumber)){
-            if(this.start && this.end){
-                this.isStart = true;
-                this.start.setAttribute("iswall", "false")
-                this.start.setAttribute("endPoints", "false")
-                this.end.setAttribute("iswall", "false")
-                this.end.setAttribute("endPoints", "false")
-                this.start = null;
-                this.end = null;
-            }
-            else if(this.isStart){
-                if(this.start){
-                    this.start.setAttribute("iswall", "false")
-                    this.start.setAttribute("endPoints", "false")
-                }
-                this.start = element;
-                this.isStart = false;
-                element.setAttribute("iswall", "true");
-                element.setAttribute("endPoints", "start");
-                
-            }
-            else{
-                if(element === this.start){return}
-                if(this.end){
-                    this.end.setAttribute("endPoints", "false")
-                    this.end.setAttribute("iswall", "false")
-                }
-                this.end = element;
-                this.isStart = true;
-                element.setAttribute("endPoints", "end");
-                element.setAttribute("iswall", "true");
-            }
+            
+        if(element === this.start){
+            element.setAttribute("iswall", "true");
+            element.setAttribute("endPoints", "false");
+            this.start = null;
         }
 
-        let iswall;
-        if(element.getAttribute("iswall") === "true"){
-            iswall = "false";
+        else if(element  === this.end){
+            element.setAttribute("iswall", "true");
+            element.setAttribute("endPoints", "false");
+            this.end = null;
+        }         
+           
+        else if(!this.start){
+            if(element === this.end){return}
+            
+            this.start = element;
+            element.setAttribute("iswall", "false");
+            element.setAttribute("endPoints", "start");
+            
+        }
+        else if (!this.end){
+            if(element === this.start){return}
+            
+            this.end = element;
+            element.setAttribute("endPoints", "end");
+            element.setAttribute("iswall", "false");
         }
         else{
-            iswall = "true";
+            if(element.getAttribute("iswall") === "true"){
+                element.setAttribute("iswall", "false");
+            }
+            else{
+                element.setAttribute("iswall", "true");
+            }
+            
         }
-        element.setAttribute("iswall", iswall);
-        
-        console.log("clicked",cellNumber);
     }
 
     playMaze(element){
-        
+        console.log("clicked play")
         //return if unplayable tile is clicked
         if(element.getAttribute("discovered") === "false" || element.getAttribute("iswall") === "true") {
             return;
