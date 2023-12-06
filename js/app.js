@@ -2,6 +2,8 @@
 
     const editBtn = document.getElementById("edit-btn");
     const playBtn = document.getElementById("play-btn");
+    const randomBtn = document.getElementById("random-btn");
+    
     var maze = new Maze();
    
 
@@ -18,14 +20,23 @@
 
         maze.enablePlayMode();
         
+    }    
+    
+    const handleRandomBtn =(event) => {
+        console.log("clicked random");
+        maze.createRandomMaze();
+        maze.enablePlayMode();
+        
+        
     }
-
+    
 
 
 
     document.getElementById("edit-btn").addEventListener("click", handleEditBtn);
     document.getElementById("play-btn").addEventListener("click", handlePlayBtn);
-
+    document.getElementById("random-btn").addEventListener("click", handleRandomBtn);
+    
 
 
 

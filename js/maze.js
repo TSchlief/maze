@@ -9,7 +9,7 @@ const mazeColors = {
 }
 
 class Maze {
-    constructor(rows=15, columns=15, fogDistance = 15, colors = mazeColors ){
+    constructor(rows=17, columns=17, fogDistance = 15, colors = mazeColors ){
         this.rows = rows;
         this.columns = columns;
         this.fogDistance = fogDistance;
@@ -102,31 +102,9 @@ class Maze {
         }
         
     }
-
-    isEdge (cellNumber) {
-        if( cellNumber < this.columns ||
-            cellNumber > this.cellCount-this.columns-1 ||
-            cellNumber % this.columns === this.columns-1 ||
-            cellNumber % this.columns === 0) {
-            return true;
-        }
-        return false;
-    }
-
-    isCorner (cellNumber) {
-        if( cellNumber === 0 ||
-            cellNumber === this.columns-1 ||
-            cellNumber === this.cellCount-1 ||
-            cellNumber === this.cellCount - this.columns) {
-                console.log("corner")
-            return true;
-        }
-        return false;
-    }
     
     //resets tiles
     reset () {
-        console.log(this.tiles)
         this.playedTiles = [];
         this.lastPlayedTiles = [];
         for(const tile in this.tiles) {
@@ -167,18 +145,14 @@ class Maze {
                     if(!set.has(directions[i])) {
                         set.add(directions[i]);
                         queue.push(directions[i]);
-                        
                     }
                 }
             }
-            
         }
-        console.log("Ivalid maze");
         return false;
     }
 
     checkFog (cellNumber) {
-        let fogSet = new Set();
         let set = new Set();
         let queue = [];
 
@@ -191,7 +165,6 @@ class Maze {
             let directions = this.travelDirections(currentIndex);
 
             if(this.fogDistance < count){
-                console.log("fogging",this.tiles[currentIndex])
                 
                 this.tiles[currentIndex].setAttribute("discovered", false);
                 this.tiles[currentIndex].setAttribute("played", false);
@@ -209,19 +182,15 @@ class Maze {
                         //if tile is discovered we count it
                         if(element.getAttribute("played") === "true"){
                             count++;
-                            console.log("element to count", directions[i])
                         }
                     }
                 }
 
-                console.log("count", count, this.fogDistance)
             }
         }
-        console.log("set and count",set, count);
         
         
     }
-
 
     //when navigating a 2d array using only a list of increasing numbers
     //determines directions of possible travel and returns indexes
@@ -278,8 +247,74 @@ class Maze {
         }
         return false;
     }
-    createRandomMaze () {
+    createRandomEndpoints(){
+        if(this.start){
+            this.start.setAttribute("iswall", "true");
+            this.start.setAttribute("endPoints", "false");
+        }
+
+        if(this.end){
+            this.end.setAttribute("iswall", "true");
+            this.end.setAttribute("endPoints", "false");
+        }  
+
+        this.start = this.tiles[this.randomRange(0, this.tiles.length)];
+        this.end = this.tiles[this.randomRange(0, this.tiles.length)];
         
+        while(this.start === this.end){
+            this.end = this.tiles[this.randomRange(0, this.tiles.length)];
+        }
+
+        this.start.setAttribute("iswall", "false");
+        this.start.setAttribute("endPoints", "start");
+        this.end.setAttribute("endPoints", "end");
+        this.end.setAttribute("iswall", "false");
+    }
+
+    randomRange(start, end) {
+        return Math.floor(Math.random()*(end+start)+start);
+    }
+    randomPath(startingIndex) {
+        let set = new Set();
+        let queue = [];
+
+        set.add(startingIndex);
+        queue.push(startingIndex);
+
+        let count = 0;
+        while (queue.length > 0 && count < 500) {
+            count++;
+            let currentIndex = queue.pop();
+            
+            let directions = this.travelDirections(currentIndex);
+            let i = this.randomRange(0,directions.length)
+            let element = this.tiles[directions[i]];
+        
+      
+            //if element is not a wall add its index to queue
+            
+                if(!set.has(directions[i])) {
+                    queue.push(directions[i]);
+                    set.add(directions[i])
+                    element.setAttribute("iswall", "false");
+                    
+                }
+            
+            
+            
+        }
+        if(!this.checkValidMaze()){
+            this.randomPath(this.randomRange(0, this.cellCount-1))
+        }
+    }
+
+    createRandomMaze () {
+        for(let i = 0; i < this.tiles.length; i++){
+            this.tiles[i].setAttribute("iswall", "true");
+        }
+        this.createRandomEndpoints();
+      
+        this.randomPath(parseInt(this.start.getAttribute("cellnumber")));
     }
 
     editMaze (element) {
@@ -325,7 +360,6 @@ class Maze {
     }
 
     playMaze(element){
-        console.log("clicked play")
         //return if unplayable tile is clicked
         if(element.getAttribute("discovered") === "false" || element.getAttribute("iswall") === "true") {
             return;
@@ -335,20 +369,17 @@ class Maze {
         const cellNumbers = [];
         const playedCells = [];
         cellNumbers.push(parseInt(element.getAttribute("cellnumber")));
-        this.travelDirections(cellNumbers[0])
-        cellNumbers.push(cellNumbers[0] + 1);
-        cellNumbers.push(cellNumbers[0] - 1);
-        cellNumbers.push(cellNumbers[0] + this.columns);
-        cellNumbers.push(cellNumbers[0] - this.columns);
+        cellNumbers.push(...this.travelDirections(cellNumbers[0]))
+        
         this.checkFog(cellNumbers[0])
         
         for(let i = 0; i < 5; i++) {
             let target = document.getElementById(`maze-cell-${cellNumbers[i]}`);
             if(cellNumbers[i] < this.cellCount && cellNumbers[i] > -1 && target.getAttribute("iswall") === "false"){
-                if(!this.isEdge(cellNumbers[i]) || target.getAttribute("endPoints") === "end"){
+              //  if(!this.isEdge(cellNumbers[i]) || target.getAttribute("endPoints") === "end"){
                     target.setAttribute("discovered", true) ;
                     this.lastPlayedTiles.push(target);
-                }
+             
             }
         }
         element.setAttribute("played", "true");
