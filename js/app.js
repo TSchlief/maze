@@ -8,14 +8,13 @@
    
 
     const handleCreateBtn =(event) => {
+        maze.checkFog(44);
         console.log("clicked create");
     }
     
     const handleEditBtn =(event) => {
         
-        maze.addFog();
-        maze.removeFog();
-        maze.canEdit = true;
+        maze.enableEditMode();
         console.log("clicked edit");
     }
     
@@ -24,11 +23,9 @@
     }
     
     const handlePlayBtn =(event) => {
-        if(maze.checkValidMaze()){
-            maze.canEdit = false;
-            maze.addFog();
-            console.log("clicked play");
-        }
+        console.log("clicked play");
+
+        maze.enablePlayMode();
         
     }
 

@@ -44,6 +44,12 @@
     gap: 1rem;
 }
 
+#maze-wrapper{
+    display: block;
+    height: 70vh;
+    width: 70vw;
+}
+
 
 
 #play-area {
@@ -56,46 +62,7 @@
 }
 
 
-#maze {
-    display: grid;
-}
 
-
-
-.maze-cell {
-    display: block;
-    height: 100%;
-    width: 100%;
-    border: 2px solid rgb(51, 104, 65);
-    
-}
-.maze-cell[iswall="true"] {
-    background-color: grey;
-    
-}
-
-.maze-cell[iswall="false"] {
-    background-color: #4E8F16;
-}
-
-.maze-cell[isedge="true"] {
-    background-color: #144272;
-    
-}
-.maze-cell[endpoints="start"] {
-    background-color: rgb(42, 207, 51);
-}
-.maze-cell[endpoints="end"] {
-    background-color: #dd9222;
-}
-
-.maze-cell[discovered="false"] {
-    background-color: rgb(4, 24, 4)
-
-}
-.maze-cell[played="true"] {
-    background-color: #334fdb
-}
 @keyframes highlight {
     0% {
         border-color: #32dd22;
