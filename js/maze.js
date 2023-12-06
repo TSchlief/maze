@@ -9,7 +9,7 @@ const mazeColors = {
 }
 
 class Maze {
-    constructor(rows=17, columns=17, fogDistance = 15, colors = mazeColors ){
+    constructor(rows=18, columns=12, fogDistance = 15, colors = mazeColors ){
         this.rows = rows;
         this.columns = columns;
         this.fogDistance = fogDistance;

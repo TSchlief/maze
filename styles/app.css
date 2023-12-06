@@ -55,7 +55,7 @@
 @media (max-width: 480px){
     #maze-wrapper{
         display: block;
-        height: 70vh;
+        height: 80vh;
         width: 97vw;
     }
 }
