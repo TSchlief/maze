@@ -3,9 +3,7 @@
     flex-direction: row;
     justify-content: center;
 }
-.column{
-    flex-direction: column;;
-}
+
 
 .header-btns{
     flex-basis: 100px;
@@ -15,7 +13,15 @@
     background-color: #144272;
     color: rgba(255, 255, 255, 0.747);
 }
-
+@media (max-width: 480px){
+    .header-btns{
+        font-size: 20px;
+        border-radius: 10px;
+        margin: 5px;
+        background-color: #144272;
+        color: rgba(255, 255, 255, 0.747);
+    }
+}
 #app {
     background-color: #205295;
     display: flex;
@@ -40,16 +46,19 @@
     width: 100px;
     height: 100%;
 }
-#header-btns-container {
-    gap: 1rem;
-}
 
 #maze-wrapper{
     display: block;
     height: 70vh;
     width: 70vw;
 }
-
+@media (max-width: 480px){
+    #maze-wrapper{
+        display: block;
+        height: 70vh;
+        width: 97vw;
+    }
+}
 
 
 #play-area {
