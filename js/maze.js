@@ -94,7 +94,7 @@ class Maze {
                 endPoints="false"
                 discovered="true"
                 played="false"
-                >${i}</div>
+                ></div>
             ` 
         }
         
