@@ -144,6 +144,7 @@ class Maze {
     
     //resets tiles
     reset () {
+        this.turns = 0;
         this.playedTiles = [];
         this.lastPlayedTiles = [];
         for(const tile in this.tiles) {
@@ -432,7 +433,7 @@ class Maze {
                 if(target.getAttribute("endPoints") === "end"){
                     this.end.classList.add("star");
                     this.mode="finish";
-                    this.winCallback();
+                    this.winCallback(this.turns);
                 }
                 target.setAttribute("discovered", true) ;
                 this.lastPlayedTiles.push(target);

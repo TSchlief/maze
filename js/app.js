@@ -3,12 +3,18 @@
     const editBtn = document.getElementById("edit-btn");
     const playBtn = document.getElementById("play-btn");
     const randomBtn = document.getElementById("random-btn");
-    
-  
-   
+    const scoreDisplay = document.getElementById("score");
 
-    const handleMazeWin = ()=>{
+  
+    function reset(){
+        victory.close();
+        scoreDisplay.innerHTML = 0;
+
+    }
+
+    const handleMazeWin = (score)=>{
         victory.open();
+
     }
 
     const handleVictoryClose = () =>{
@@ -18,13 +24,13 @@
     
     const handleEditBtn =(event) => {
         maze.enableEditMode();
-        victory.close();
+        reset()
         console.log("clicked edit");
     }
    
     const handlePlayBtn =(event) => {
         console.log("clicked play");
-        victory.close();
+        reset()
         maze.enablePlayMode();
         
     }    
@@ -32,17 +38,24 @@
     const handleRandomBtn =(event) => {
         console.log("clicked random");
         maze.createRandomMaze();
-        victory.close();
+        reset()
         maze.enablePlayMode();
+        
+        
+    }      
+    const handleMazeClick =(event) => {
+        console.log("clicked maze");
+        scoreDisplay.innerHTML = maze.turns;
+
+
+
+        
         
         
     }   
     
    
-    
-    document.getElementById("edit-btn").addEventListener("click", handleEditBtn);
-    document.getElementById("play-btn").addEventListener("click", handlePlayBtn);
-    document.getElementById("random-btn").addEventListener("click", handleRandomBtn);
+ 
     
 
     var maze = new Maze(handleMazeWin);
@@ -51,7 +64,11 @@
     maze.enablePlayMode();
 
 
-
+    
+    document.getElementById("maze").addEventListener("click", handleMazeClick);
+    document.getElementById("edit-btn").addEventListener("click", handleEditBtn);
+    document.getElementById("play-btn").addEventListener("click", handlePlayBtn);
+    document.getElementById("random-btn").addEventListener("click", handleRandomBtn);
 
 
 
