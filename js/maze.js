@@ -3,13 +3,13 @@ const mazeColors = {
     path: "#4E8F16",
     start: "rgb(42, 207, 51)",
     end: "#dd9222",
-    discovered: "rgb(4, 24, 4)",
+    discovered: "rgb(16, 40, 80)",
     played: "#334fdb",
     border: "rgb(51, 104, 65)"
 }
 
 class Maze {
-    constructor(rows=18, columns=12, fogDistance = 15, colors = mazeColors ){
+    constructor(rows=15, columns=10, fogDistance = 10, colors = mazeColors ){
         this.rows = rows;
         this.columns = columns;
         this.fogDistance = fogDistance;
@@ -37,14 +37,36 @@ class Maze {
             display: grid;
             height: 100%;
             width: 100%;
+            border-radius: 15px;
             grid-template-columns: repeat(${this.columns}, minmax(0, auto));
             grid-template-rows: repeat(${this.rows}, minmax(0, auto));
+            background-color: ${this.colors.discovered};
         }
         .maze-cell {
             display: block;
-            height: 100%;
-            width: 100%;
-            border: 2px solid ${this.colors.border};
+            margin: 1px;
+            height: 98%;
+            width: 98%;
+            border: 1px solid ${this.colors.discovered};
+            border-radius: 6px;
+        }
+
+        @keyframes highlight {
+            0% {
+                scale: 1;
+            }
+
+            30% {
+                scale:0.9;
+            }
+            100% {
+                scale: 1;
+            }
+        }
+        
+
+        .fade{
+            transition: background-color 0.2s ease;
         }
         
         .maze-cell[iswall="true"] {
@@ -53,6 +75,7 @@ class Maze {
         
         .maze-cell[iswall="false"] {
             background-color: ${this.colors.path};
+            transition: background-color 0.4s ease;
         }
         
         .maze-cell[endpoints="start"] {
@@ -60,21 +83,36 @@ class Maze {
         }
         .maze-cell[endpoints="end"] {
             background-color: ${this.colors.end};
+            
+        }
+        .star {
+            background-image: url("./images/goldStar.png");
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
         }
         
+        
         .maze-cell[discovered="false"] {
-            background-color: ${this.colors.discovered}
+            background-color: ${this.colors.discovered};
+            transition: background-color 1.5s ease;
         }
 
         .maze-cell[played="true"] {
-            background-color: ${this.colors.played}
+            background-color: ${this.colors.played};
+            animation-name: highlight;
+            animation-duration: 0.2s;
+            
+            
         }
+  
 
         `;
         const styleTag = document.createElement("style");
         styleTag.innerHTML = mazeStyles;
         document.head.appendChild(styleTag);
     }
+  
     
     buildCells () {
         let cellsHtml = [];
@@ -84,7 +122,7 @@ class Maze {
                 <div 
                 iswall="true"
                 cellNumber='${i}'
-                class="maze-cell"
+                class="maze-cell fade"
                 id="maze-cell-${i}"
                 endPoints="false"
                 discovered="true"
@@ -237,11 +275,13 @@ class Maze {
         this.reset();
         this.removeFog();
         this.mode = "edit";
+        this.end.classList.add("star");
     }
 
     enablePlayMode () {
         if(this.checkValidMaze()){
             this.mode = "play";
+            this.end.classList.remove("star");
             this.reset();
             return true;
         }
@@ -330,6 +370,7 @@ class Maze {
         else if(element  === this.end){
             element.setAttribute("iswall", "true");
             element.setAttribute("endPoints", "false");
+            this.end.classList.remove("star");
             this.end = null;
         }         
            
@@ -347,6 +388,7 @@ class Maze {
             this.end = element;
             element.setAttribute("endPoints", "end");
             element.setAttribute("iswall", "false");
+            this.end.classList.add("star");
         }
         else{
             if(element.getAttribute("iswall") === "true"){
@@ -357,6 +399,10 @@ class Maze {
             }
             
         }
+    }
+
+    victory() {
+
     }
 
     playMaze(element){
@@ -376,9 +422,11 @@ class Maze {
         for(let i = 0; i < 5; i++) {
             let target = document.getElementById(`maze-cell-${cellNumbers[i]}`);
             if(cellNumbers[i] < this.cellCount && cellNumbers[i] > -1 && target.getAttribute("iswall") === "false"){
-              //  if(!this.isEdge(cellNumbers[i]) || target.getAttribute("endPoints") === "end"){
-                    target.setAttribute("discovered", true) ;
-                    this.lastPlayedTiles.push(target);
+                if(target.getAttribute("endPoints") === "end"){
+                    this.end.classList.add("star");
+                }
+                target.setAttribute("discovered", true) ;
+                this.lastPlayedTiles.push(target);
              
             }
         }

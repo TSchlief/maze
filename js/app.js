@@ -5,6 +5,8 @@
     const randomBtn = document.getElementById("random-btn");
     
     var maze = new Maze();
+    maze.createRandomMaze();
+    maze.enablePlayMode();
    
 
  

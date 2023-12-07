@@ -1,3 +1,7 @@
+*{
+    font-family: "Martian Mono";
+}
+
 .flex-container{
     display: flex;
     flex-direction: row;
@@ -71,18 +75,16 @@
 }
 
 
-
-@keyframes highlight {
-    0% {
-        border-color: #32dd22;
-    }
-    50% {
-        border-color: #cadd22;
-    }
-    100% {
-        border-color: #32dd22;
-    }
+#victory-banner {
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;      
+    color: white;
+    text-align: center;
 }
+
 .scale {
     transition: transform 0.3s ease;
 }
