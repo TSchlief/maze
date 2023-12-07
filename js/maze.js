@@ -296,6 +296,7 @@ class Maze {
         if(this.end){
             this.end.setAttribute("iswall", "true");
             this.end.setAttribute("endPoints", "false");
+            this.end.classList.remove("star");
         }  
 
         this.start = this.tiles[this.randomRange(0, this.tiles.length)];
@@ -309,6 +310,7 @@ class Maze {
         this.start.setAttribute("endPoints", "start");
         this.end.setAttribute("endPoints", "end");
         this.end.setAttribute("iswall", "false");
+        this.end.classList.add("star");
     }
 
     randomRange(start, end) {
