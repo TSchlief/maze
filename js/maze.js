@@ -9,7 +9,8 @@ const mazeColors = {
 }
 
 class Maze {
-    constructor(rows=15, columns=10, fogDistance = 10, colors = mazeColors ){
+    constructor(winCallback, rows=15, columns=10, fogDistance = 10, colors = mazeColors ){
+        this.winCallback = winCallback;
         this.rows = rows;
         this.columns = columns;
         this.fogDistance = fogDistance;
@@ -412,6 +413,10 @@ class Maze {
         if(element.getAttribute("discovered") === "false" || element.getAttribute("iswall") === "true") {
             return;
         }
+        //return if mode is not set to play
+        if(this.mode !== "play"){
+            return;
+        }
  
         this.handleTurnEvent();
         const cellNumbers = [];
@@ -426,6 +431,8 @@ class Maze {
             if(cellNumbers[i] < this.cellCount && cellNumbers[i] > -1 && target.getAttribute("iswall") === "false"){
                 if(target.getAttribute("endPoints") === "end"){
                     this.end.classList.add("star");
+                    this.mode="finish";
+                    this.winCallback();
                 }
                 target.setAttribute("discovered", true) ;
                 this.lastPlayedTiles.push(target);

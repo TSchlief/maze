@@ -1,7 +1,9 @@
 *{
     font-family: "Martian Mono";
 }
-
+h2{
+    
+}
 .flex-container{
     display: flex;
     flex-direction: row;
@@ -75,14 +77,20 @@
 }
 
 
-#victory-banner {
+#victory-wrapper{
     position: absolute;
-    display: none;
+    display: flex;
+    flex-direction: column;
+    height:100px;
     top: 0;
     left: 0;
-    right: 0;      
+    font-size: 70px;
     color: white;
     text-align: center;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
 }
 
 .scale {
