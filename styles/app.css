@@ -33,32 +33,21 @@
     background-color: #144272;
     color: rgba(255, 255, 255, 0.747);
 }
-@media (max-width: 480px){
-    .header-btns{
-        font-size: 20px;
-        border-radius: 10px;
-        margin: 5px;
-        background-color: #144272;
-        color: rgba(255, 255, 255, 0.747);
-    }
-    .score{
-        font-size: 15px;
-    }
-}
+
 #app {
     background-color: #205295;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     height: 100vh;
 }
 
 #header{
-    position: absolute;
+    
     
     display: flex;
     flex-wrap: wrap;
+    flex:1;
     top:0;
     left:0;
     width: 100%;
@@ -120,4 +109,23 @@
 
 .scale:hover {
     transform: scale(1.05);
+}
+
+@media (max-width: 480px){
+    .header-btns{
+        font-size: 20px;
+        border-radius: 10px;
+        margin: 5px;
+        background-color: #144272;
+        color: rgba(255, 255, 255, 0.747);
+    }
+    #score{
+        font-size: 15px;
+    }
+    #turns{
+        font-size: 15px;
+    }
+    #victory-wrapper{
+        font-size: 40px;
+    }
 }
