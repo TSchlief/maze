@@ -9,7 +9,7 @@ const mazeColors = {
 }
 
 class Maze {
-    constructor(winCallback, rows=15, columns=10, fogDistance = 10, colors = mazeColors ){
+    constructor(winCallback, rows=15, columns=10, fogDistance = 100, colors = mazeColors ){
         this.winCallback = winCallback;
         this.rows = rows;
         this.columns = columns;
